@@ -2,6 +2,8 @@
 #include <string.h>
 #include "header.h"
 #include "RyanTrinh.c"
+#include "AndrewGravino.c"
+#include "AaronLiban.c"
 
 int numDays;
 
