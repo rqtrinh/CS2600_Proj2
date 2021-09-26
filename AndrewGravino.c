@@ -23,7 +23,7 @@ int getMealAmount(int argc, char*argv[]){
             }
 
             if(day == 0){ //first day price exceptions
-            //regardless of number of meals when leaving, anything "outside" the trip isnt what the company owes, it's your own money
+            //regardless of number of meals when leaving, we start counting money once the trip begins
                 if(firstDepartureTime < 7 && meal == 1){
                     tempMealPrice = 0;
                 }
@@ -48,17 +48,15 @@ int getMealAmount(int argc, char*argv[]){
                 }
             }
 
-            if(day != 0 && day != numDays){ //everyday exceptions
-                if(meal == 1){
-                    tempMealPrice -= 9;
-                }
-                if(meal == 2){
-                    tempMealPrice -= 12;
-                }
-                if(meal == 3){
-                    tempMealPrice -= 16;
-                }
-
+            if(meal == 1){ //this accounts for the beginning and last days where they could leave
+            //early in the day and their next meals like dinner are just discounted rather than fully covered
+                tempMealPrice -= 9;
+            }
+            if(meal == 2){
+                tempMealPrice -= 12;
+            }
+            if(meal == 3){
+                tempMealPrice -= 16;
             }
 
             if(tempMealPrice < 0){ //negative checker because the company "allows up to" instead of paying you 9, 12, or 16 each time
@@ -66,5 +64,13 @@ int getMealAmount(int argc, char*argv[]){
             }
 
         }
-        overallMealPrice += tempMealPrice; //add overallMealPrice once the first for loop terminates
+        overallMealPrice += tempMealPrice; //add to overallMealPrice each time the iteration finishes
+    } //then after the loops terminates, we have all the added values we need
+    return overallMealPrice; //this is what is incurred at the end for this method
 }
+
+//add a method that grabs you the original meal price without all the discounts
+//like 2000 dollars you paid but it returns 3000
+
+//add a method that shows you how much you saved via company expenses on meals
+//like 2000 dollars paid and so it returns 1000
