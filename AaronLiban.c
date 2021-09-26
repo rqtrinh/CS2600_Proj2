@@ -7,9 +7,10 @@
 */
 
 #include <stdio.h>
+#include "header.h"
 
-static int firstDepartureTime;
-static int lastArrivalTime;
+// static int firstDepartureTime;
+// static int lastArrivalTime;
 
 void setDepartureTime(){
    
@@ -48,7 +49,7 @@ void setMilesDriven(){
    // printf("%d\n", x);
    mileFees = x * mileTax;
    
-   // totalExpenses += mileFees;
+   totalExpenses += mileFees;
    // printf("%f", mileFees);
 }
 
@@ -59,10 +60,10 @@ void setTaxiFees(){
 
    printf("What is the total amount of taxi fees?: ");
    scanf("%lf", &taxiFees);
-   taxiFeesCovered = days * 10;
+   taxiFeesCovered = numDays * 10;
 
-   // totalExpenses += taxiFees;
-   // whatever the name of the variable is going to be for the fees covered += taxiFeesCovered;
+   totalExpenses += taxiFees;
+   allowableExpenses += taxiFeesCovered;
 }
 
 
@@ -73,7 +74,7 @@ void setRegistrationFees(){
    printf("What is the total amount of conference or seminar registration fees?: ");
    scanf("%lf", &registrationFees);
 
-   // totalExpenses += registrationFees;
+   totalExpenses += registrationFees;
 }
 
 
@@ -83,10 +84,10 @@ void setHotelFees(){
 
    printf("What is the total amount of hotel fees?: ");
    scanf("%lf", &hotelFees);
-   hotelFeesCovered = (days-1) * 90;
+   hotelFeesCovered = (numDays-1) * 90;
 
-   // totalExpenses += hotelFees;
-   // whatever the name of the variable is going to be for the fees covered += hotelFeesCovered;
+   totalExpenses += hotelFees;
+   allowableExpenses += hotelFeesCovered;
 }
 
 
