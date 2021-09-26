@@ -7,7 +7,7 @@ int getDays(int argc, char*argv[]){
     int days = 0; 
     while (days<1)
     {
-        printf("What was the total number of days spent on the trip?");
+        printf("What was the total number of days spent on the trip? ");
         scanf("%d", &days);
         if(days<1)
         {
@@ -38,7 +38,7 @@ double getCarRental(int argc, char*argv[]){
     double carRental = -1; 
     while(carRental < 0)
     {
-        printf("What was your total car rental cost?");
+        printf("What was your total car rental cost? ");
         scanf("%lf", &carRental);
         if(getCarRental<0)
             {
@@ -51,16 +51,26 @@ double getCarRental(int argc, char*argv[]){
 
 //Function that will ask for parking fees everyday and return total cost
 double getParkingFee(int argc, char*argv[]){
-    double totalParkingFee; 
-    double dailyParkingFee;
+    double totalParkingFee = 0; 
+    double dailyParkingFee; 
+    int check = 1;
+
     for(int i =1; i < numDays+1; i++)
     {
-        printf("What was the parking fee for day %d?", i);
-        scanf("%lf", &dailyParkingFee);
-        if (dailyParkingFee < 0)
+        do
         {
-            printf("Sorry dollar amounts can't be negative\n");
-        }
+            printf("What was the parking fee for day %d? ", i);
+            scanf("%lf", &dailyParkingFee);
+            if (dailyParkingFee < 0)
+            {
+                printf("Sorry dollar amounts can't be negative\n");
+                check = 0;
+            }
+            else
+            {
+                check = 1;
+            }
+        }while(check==0);
         totalParkingFee += dailyParkingFee;
     }
     allowableExpenses += (numDays*6);
