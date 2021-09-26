@@ -3,4 +3,5 @@
 int numDays;
 int firstDepartureTime;
 int lastArrivalTime;
+double allowableExpenses;
 #endif
