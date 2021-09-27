@@ -16,7 +16,7 @@ void setDepartureTime(){
    
    int x, y;
    
-   printf("What was the departure time of the trip?: ");
+   printf("What was the departure time of the trip in military time?: ");
    scanf("%d", &x);
    if(x<1||x>24){
       do{
@@ -26,7 +26,7 @@ void setDepartureTime(){
    }
    firstDepartureTime = x;
 
-   printf("What was the arrival time of the trip?: ");
+   printf("What was the arrival time of the trip in military time?: ");
    scanf("%d", &y);
    if(y<1||y>24){
       do{
@@ -41,22 +41,20 @@ void setDepartureTime(){
 void setMilesDriven(){
 
    double mileTax = 0.27;
-   double mileFees;
    int x;
 
    printf("How many miles did you drive with a private vehicle?: ");
    scanf("%d", &x);
+   miles = x;
    // printf("%d\n", x);
    mileFees = x * mileTax;
    
-   totalExpenses += mileFees;
-   // printf("%f", mileFees);
 }
 
 
-void setTaxiFees(){
+void setTaxiFees(numDays){
 
-   double x, taxiFees, taxiFeesCovered;
+   double x;
    taxiFees = 0;
 
    for(int i=1;i<=numDays;i++){
@@ -67,7 +65,6 @@ void setTaxiFees(){
          taxiFeesCovered += 10;
       }
    }
-   totalExpenses += taxiFees;
    allowableExpenses += taxiFeesCovered;
 }
 
@@ -78,20 +75,20 @@ void setRegistrationFees(){
 
    printf("What is the total amount of conference or seminar registration fees?: ");
    scanf("%lf", &registrationFees);
+   seminar_conferenceCosts = registrationFees;
 
-   totalExpenses += registrationFees;
 }
 
 
-void setHotelFees(){
+void setHotelFees(numDays){
    
-   double hotelFees, hotelFeesCovered;
+   double x;
 
    printf("What is the total amount of hotel fees?: ");
-   scanf("%lf", &hotelFees);
+   scanf("%lf", &x);
+   hotelFees = x;
    hotelFeesCovered = (numDays-1) * 90;
 
-   totalExpenses += hotelFees;
    allowableExpenses += hotelFeesCovered;
 }
 
