@@ -86,7 +86,7 @@ void setRegistrationFees(){
 
    printf("What is the total amount of conference or seminar registration fees?: ");
    scanf("%lf", &registrationFees);
-   if(x<0){
+   if(registrationFees<0){
       do{
          printf("Invalid number, please re-enter: ");
          scanf("%lf", &registrationFees);
