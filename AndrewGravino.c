@@ -1,5 +1,7 @@
-//hello
-//this is where im working
+/*expenses incurred - money that we spent
+excess that must be reimbursed - money that you have to pay for yourself
+total allowable expenses - money that the company is giving you
+*/
 
 #include <stdio.h>
 #include "header.h"
@@ -53,7 +55,7 @@ int getOverallMealPrice(int argc, char*argv[]){
                 }
             }
 
-            if(day == numDays+1){ //last day exceptions, anything "outside" the trip isnt what the company owes, it's your own money
+            if(day == numDays){ //last day exceptions, anything "outside" the trip isnt what the company owes, it's your own money
                 //lunch and dinner have no discount
                 if(lastArrivalTime > 8 && lastArrivalTime <= 13 && meal == 1){ //free breakfast
                     allowableExpenses += tempMealPrice;
@@ -84,7 +86,7 @@ int getOverallMealPrice(int argc, char*argv[]){
                 }
             }
             
-            if(day != 1 && day != numDays+1){
+            if(day != 1 && day != numDays){
                 if(meal == 1){ //everyday that's not the first and last days has the easy equation
                     tempMealPrice -= 9;
                     allowableExpenses += 9;
@@ -110,11 +112,3 @@ int getOverallMealPrice(int argc, char*argv[]){
 
     return overallMealPrice; //this is what is incurred at the end for this method
 }
-
-//add a method that shows you how much you saved via company expenses on meals
-//like 2000 dollars paid and so it returns 1000
-
-/*expenses incurred - money that we spent
-excess that must be reimbursed - money that you have to pay for yourself
-total allowable expenses - money that the company is giving you
-*/
