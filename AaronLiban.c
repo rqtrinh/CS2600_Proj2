@@ -56,12 +56,17 @@ void setMilesDriven(){
 
 void setTaxiFees(){
 
-   double taxiFees, taxiFeesCovered;
+   double x, taxiFees, taxiFeesCovered;
+   taxiFees = 0;
 
-   printf("What is the total amount of taxi fees?: ");
-   scanf("%lf", &taxiFees);
-   taxiFeesCovered = numDays * 10;
-
+   for(int i=1;i<=numDays;i++){
+      printf("What is the amount of taxi fees on day %d?: ", i);
+      scanf("%lf", &x);
+      if(x>0){
+         taxiFees += x;
+         taxiFeesCovered += 10;
+      }
+   }
    totalExpenses += taxiFees;
    allowableExpenses += taxiFeesCovered;
 }
