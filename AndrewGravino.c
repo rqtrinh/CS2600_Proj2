@@ -2,18 +2,17 @@
 //this is where im working
 
 #include <stdio.h>
+#include "header.h"
 
-//Function that will determine how much 
-int getMealAmount(int argc, char*argv[]){
-    int numDays;
-    int firstDepartureTime;
-    int lastDepartureTime;
+//Function that will determine how much you need overall after all the price changes
+int getOverallMealPrice(int argc, char*argv[]){
     double overallMealPrice = 0;
     double tempMealPrice = 0;
+    printf("DISCLAIMER: Any meals eaten before leaving or coming back will NOT be covered by the company.\n");
     for(int day = 1; day < numDays+1; day++){
         for(int meal = 1; meal < 4; meal++){
-            printf("For day %d, how much did meal %d of the day cost?: ", day, meal);
-            scanf("%lf", tempMealPrice);
+            printf("For day %d, how much did meal %d of the day cost? ", day, meal);
+            scanf("%lf", &tempMealPrice);
 
             if(tempMealPrice < 0){ //no negatives checker
                 do{
@@ -22,55 +21,100 @@ int getMealAmount(int argc, char*argv[]){
                 }while(tempMealPrice < 0);
             }
 
-            if(day == 0){ //first day price exceptions
-            //regardless of number of meals when leaving, we start counting money once the trip begins
-                if(firstDepartureTime < 7 && meal == 1){
+            if(day == 1){ //first day price exceptions
+            //anything before leaving is full price, anything during leaving is free, anything on the day of leaving afterward has a discount
+                if(firstDepartureTime < 7 && meal == 1){ //free breakfast
+                    allowableExpenses += tempMealPrice;
                     tempMealPrice = 0;
                 }
-                if(firstDepartureTime >= 7 && firstDepartureTime < 12 && meal == 2){
+                if(firstDepartureTime < 7 && meal == 2){ //gets discounted lunch
+                    allowableExpenses += 12;
+                    tempMealPrice -= 12;
+                }
+                if(firstDepartureTime < 7 && meal == 3){ //gets discounted dinner
+                    allowableExpenses += 16;
+                    tempMealPrice -= 16;
+                }
+                
+                //breakfast has no discount
+                if(firstDepartureTime >= 7 && firstDepartureTime < 12 && meal == 2){ //free lunch
+                    allowableExpenses += tempMealPrice;
                     tempMealPrice = 0;
                 }
-                if(firstDepartureTime >= 12 && firstDepartureTime < 18 && meal == 3){
+                if(firstDepartureTime >= 7 && firstDepartureTime < 12 && meal == 3){ //gets discounted dinner
+                    allowableExpenses += 16;
+                    tempMealPrice -= 16;
+                }
+
+                //breakfast and lunch have no discount
+                if(firstDepartureTime >= 12 && firstDepartureTime < 18 && meal == 3){ //free dinner
+                    allowableExpenses += tempMealPrice;
                     tempMealPrice = 0;
                 }
             }
 
-            if(day == numDays){ //last day exceptions
-            //regardless of number of meals when arriving, anything "outside" the trip isnt what the company owes, it's your own money
-                if(lastDepartureTime > 8 && lastDepartureTime <= 13 && meal == 1){
+            if(day == numDays+1){ //last day exceptions, anything "outside" the trip isnt what the company owes, it's your own money
+                //lunch and dinner have no discount
+                if(lastArrivalTime > 8 && lastArrivalTime <= 13 && meal == 1){ //free breakfast
+                    allowableExpenses += tempMealPrice;
                     tempMealPrice = 0;
                 }
-                if(lastDepartureTime > 13 && lastDepartureTime <= 19 && meal == 2){
+
+                //dinner has no discount
+                if(lastArrivalTime > 13 && lastArrivalTime <= 19 && meal == 2){ //free lunch
+                    allowableExpenses += tempMealPrice;
                     tempMealPrice = 0;
                 }
-                if(lastDepartureTime > 19 && meal == 3){
+                if(lastArrivalTime > 13 && lastArrivalTime <= 19 && meal == 1){ //gets discounted breakfast
+                    allowableExpenses += 9;
+                    tempMealPrice -= 9;
+                }
+
+                if(lastArrivalTime > 19 && meal == 3){ //free dinner
+                    allowableExpenses += tempMealPrice;
                     tempMealPrice = 0;
+                }
+                if(lastArrivalTime > 19 && meal == 1){ //get discounted breakfast
+                    allowableExpenses += 9;
+                    tempMealPrice -= 9;
+                }
+                if(lastArrivalTime > 19 && meal == 2){ //gets discounted lunch
+                    allowableExpenses += 12;
+                    tempMealPrice -= 12;
+                }
+            }
+            
+            if(day != 1 && day != numDays+1){
+                if(meal == 1){ //everyday that's not the first and last days has the easy equation
+                    tempMealPrice -= 9;
+                    allowableExpenses += 9;
+                }
+                if(meal == 2){
+                    tempMealPrice -= 12;
+                    allowableExpenses += 12;
+                }
+                if(meal == 3){
+                    tempMealPrice -= 16;
+                    allowableExpenses += 16;
                 }
             }
 
-            if(meal == 1){ //this accounts for the beginning and last days where they could leave
-            //early in the day and their next meals like dinner are just discounted rather than fully covered
-                tempMealPrice -= 9;
-            }
-            if(meal == 2){
-                tempMealPrice -= 12;
-            }
-            if(meal == 3){
-                tempMealPrice -= 16;
-            }
+            //because the meals before the trip and after the trip dont get covered by the company, they remain full price
 
             if(tempMealPrice < 0){ //negative checker because the company "allows up to" instead of paying you 9, 12, or 16 each time
                 tempMealPrice = 0;
             }
-
         }
-        overallMealPrice += tempMealPrice; //add to overallMealPrice each time the iteration finishes
-    } //then after the loops terminates, we have all the added values we need
+        overallMealPrice += tempMealPrice; //add to overallMealPrice each time all the adjustments (or lack thereof on certain occasions) are finished
+    }
+
     return overallMealPrice; //this is what is incurred at the end for this method
 }
 
-//add a method that grabs you the original meal price without all the discounts
-//like 2000 dollars you paid but it returns 3000
-
 //add a method that shows you how much you saved via company expenses on meals
 //like 2000 dollars paid and so it returns 1000
+
+/*expenses incurred - money that we spent
+excess that must be reimbursed - money that you have to pay for yourself
+total allowable expenses - money that the company is giving you
+*/
