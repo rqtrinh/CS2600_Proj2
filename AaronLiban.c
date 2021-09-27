@@ -45,10 +45,15 @@ void setMilesDriven(){
 
    printf("How many miles did you drive with a private vehicle?: ");
    scanf("%d", &x);
+   if(x<0){
+      do{
+         printf("Invalid number, please re-enter: ");
+         scanf("%d", &x);
+      }while(x<0);
+   }
    miles = x;
    // printf("%d\n", x);
    mileFees = x * mileTax;
-   
 }
 
 
@@ -60,6 +65,12 @@ void setTaxiFees(numDays){
    for(int i=1;i<=numDays;i++){
       printf("What is the amount of taxi fees on day %d?: ", i);
       scanf("%lf", &x);
+      if(x<0){
+         do{
+            printf("Invalid number, please re-enter: ");
+            scanf("%lf", &x);
+         }while(x<0);
+      }
       if(x>0){
          taxiFees += x;
          taxiFeesCovered += 10;
@@ -75,8 +86,13 @@ void setRegistrationFees(){
 
    printf("What is the total amount of conference or seminar registration fees?: ");
    scanf("%lf", &registrationFees);
+   if(x<0){
+      do{
+         printf("Invalid number, please re-enter: ");
+         scanf("%lf", &registrationFees);
+      }while(registrationFees<0);
+   }
    seminar_conferenceCosts = registrationFees;
-
 }
 
 
@@ -86,6 +102,12 @@ void setHotelFees(numDays){
 
    printf("What is the total amount of hotel fees?: ");
    scanf("%lf", &x);
+   if(x<0){
+      do{
+         printf("Invalid number, please re-enter: ");
+         scanf("%lf", &hotelFees);
+      }while(hotelFees<0);
+   }
    hotelFees = x;
    hotelFeesCovered = (numDays-1) * 90;
 
